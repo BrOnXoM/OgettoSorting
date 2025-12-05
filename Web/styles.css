@@ -1,0 +1,456 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #F3F7FF;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+main {
+    width: calc(100vw - 60px);
+    height: calc(100vh - 60px);
+    background-color: #FFFFFF;
+    border-radius: 50px;
+    position: relative;
+    overflow: hidden;
+}
+
+.blue-stripe {
+    width: 100%;
+    height: 15px;
+    background-color: #87CEEB;
+    border-radius: 50px 50px 0 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.main-content {
+    width: 100%;
+    height: 100%;
+    padding: 30px;
+    display: none;
+    align-items: center;
+}
+
+.main-content.active {
+    display: flex;
+}
+
+.camera-container {
+    flex: 1;
+    height: 100%;
+    margin-right: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.camera-feed {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+.camera-feed.inactive {
+    background-color: #f0f0f0;
+    color: #666;
+    border: 2px dashed #ccc;
+    cursor: pointer;
+}
+
+.camera-feed.active {
+    background-color: #e0e0e0;
+    color: #333;
+    border: 2px solid #ccc;
+}
+
+/* Видео поток с камеры */
+.camera-feed video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.scan-text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    z-index: 2;
+    background-color: #f0f0f0;
+    padding: 20px 40px;
+    
+}
+
+.scan-text-large {
+    font-size: 56px;
+    color: #333;
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1;
+}
+
+.scan-text-small {
+    font-size: 28px;
+    color: #333;
+    text-align: center;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.stream-text {
+    font-size: 28px;
+    color: #333;
+}
+
+.stats-container {
+    flex: 1;
+    height: 100%;
+    margin-left: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+}
+
+.stats-title {
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #333;
+    font-weight: 700;
+    text-align: center;
+}
+
+.stat-item {
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.stat-label {
+    font-size: 26px;
+    color: #333;
+    font-weight: 500;
+    flex: 1;
+}
+
+.stat-value {
+    background-color: #FFD800;
+    border-radius: 70px;
+    padding: 12px 25px;
+    color: #333;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    min-width: 200px;
+    margin-left: 20px;
+}
+
+/* Состояние 2: Загрузка */
+.loading-icon {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.loading-icon i {
+    font-size: 60px;
+    color: #666;
+}
+
+.loading-text {
+    font-size: 28px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 500;
+}
+
+.yellow-btn {
+    background-color: #FFD800;
+    border: none;
+    border-radius: 70px;
+    padding: 18px 35px;
+    color: #333;
+    font-size: 26px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.yellow-btn:hover {
+    background-color: #ffc800;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 200, 0, 0.3);
+}
+
+.yellow-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(255, 200, 0, 0.2);
+}
+
+/* Кнопка для теста ошибки */
+.error-btn {
+    background-color: #FF6B6B;
+    border: none;
+    border-radius: 70px;
+    padding: 15px 30px;
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.error-btn:hover {
+    background-color: #ff5252;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+}
+
+.error-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(255, 107, 107, 0.2);
+}
+
+/* Состояние 3: Результат */
+.info-item {
+    margin-bottom: 25px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.yellow-label {
+    background-color: #FFD800;
+    border-radius: 70px;
+    padding: 10px 20px;
+    color: #333;
+    font-size: 24px;
+    font-weight: 700;
+    min-width: 160px;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.info-text {
+    font-size: 26px;
+    color: #333;
+    font-weight: 500;
+    line-height: 1.4;
+    flex: 1;
+}
+
+.instructions {
+    flex: 1;
+}
+
+.instruction {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.progress-container {
+    display: flex;
+    margin: 35px 0 40px 0;
+    width: 100%;
+    gap: 8px;
+}
+
+.progress-segment {
+    flex: 1;
+    height: 30px;
+    border-radius: 12px;
+}
+
+.progress-segment.gray {
+    background-color: #e0e0e0;
+}
+
+.progress-segment.green {
+    background-color: #4CAF50;
+}
+
+/* Состояние 4: Ошибка идентификации */
+.error-icon {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.error-icon i {
+    font-size: 80px;
+    color: #FF4444;
+}
+
+.error-text {
+    font-size: 32px;
+    color: #FF4444;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.error-description {
+    font-size: 24px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* Адаптация для планшета */
+@media (max-width: 1200px) {
+    .camera-feed {
+        font-size: 24px;
+    }
+    
+    .scan-text-large {
+        font-size: 48px;
+    }
+    
+    .scan-text-small {
+        font-size: 24px;
+    }
+    
+    .scan-text-container {
+        padding: 15px 30px;
+    }
+    
+    .stream-text {
+        font-size: 24px;
+    }
+    
+    .stats-title {
+        font-size: 28px;
+    }
+    
+    .stat-label {
+        font-size: 22px;
+    }
+    
+    .stat-value {
+        font-size: 20px;
+        padding: 10px 20px;
+        min-width: 180px;
+    }
+    
+    .loading-text {
+        font-size: 24px;
+    }
+    
+    .error-text {
+        font-size: 28px;
+    }
+    
+    .error-description {
+        font-size: 20px;
+    }
+    
+    .yellow-btn {
+        font-size: 22px;
+        padding: 15px 30px;
+    }
+    
+    .error-btn {
+        font-size: 20px;
+        padding: 12px 24px;
+    }
+    
+    .yellow-label {
+        font-size: 20px;
+        min-width: 140px;
+    }
+    
+    .info-text {
+        font-size: 22px;
+    }
+    
+    .instruction {
+        font-size: 20px;
+    }
+    
+    .loading-icon i {
+        font-size: 48px;
+    }
+    
+    .error-icon i {
+        font-size: 64px;
+    }
+}
+
+@media (max-height: 700px) {
+    .main-content {
+        padding: 20px;
+    }
+    
+    .stats-container {
+        padding: 10px;
+    }
+    
+    .stat-item {
+        margin-bottom: 15px;
+    }
+    
+    .info-item {
+        margin-bottom: 15px;
+    }
+    
+    .progress-container {
+        margin: 20px 0 25px 0;
+    }
+    
+    .scan-text-large {
+        font-size: 42px;
+        margin-bottom: 5px;
+    }
+    
+    .scan-text-small {
+        font-size: 21px;
+    }
+    
+    .scan-text-container {
+        padding: 10px 20px;
+    }
+    
+    .loading-text {
+        margin-bottom: 25px;
+    }
+    
+    .error-text {
+        margin-bottom: 20px;
+    }
+    
+    .error-description {
+        margin-bottom: 30px;
+    }
+}
