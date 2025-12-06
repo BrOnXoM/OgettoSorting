@@ -1,0 +1,6 @@
+train: data/train/images
+val: data/valid/images
+test: data/test/images
+# классификация мусора - кол -во классов
+nc: 2
+names: ['Plastic', 'Paper']
