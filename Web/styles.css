@@ -454,3 +454,762 @@ main {
         margin-bottom: 30px;
     }
 }
+
+/* Состояние 5: Ручной выбор категории (с камерой) */
+#state5.main-content {
+    display: none;
+}
+
+#state5.main-content.active {
+    display: flex;
+}
+
+/* Контейнер для списка */
+.manual-list-container {
+    flex: 1;
+    height: 100%;
+    margin-left: 30px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid #e0e0e0;
+}
+
+/* Хедер списка */
+.manual-list-header {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #87CEEB;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.back-btn-header {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+    margin-right: 15px;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-btn-header:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.manual-list-title {
+    font-size: 24px;
+    color: #333;
+    font-weight: 700;
+    margin: 0;
+    flex: 1;
+}
+
+/* Список типов пластика */
+.plastic-types-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.plastic-type-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.plastic-type-item:hover {
+    background-color: #f0f0f0;
+    transform: translateX(-3px);
+    border-color: #FFD800;
+}
+
+.plastic-type-item:active {
+    transform: translateX(-1px);
+}
+
+/* Иконка пластика */
+.plastic-type-icon {
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.plastic-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Информация о пластике */
+.plastic-type-info {
+    flex: 1;
+}
+
+.plastic-type-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.plastic-type-code {
+    font-size: 16px;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.plastic-type-desc {
+    font-size: 14px;
+    color: #777;
+    line-height: 1.3;
+}
+
+/* Стрелка */
+.plastic-type-arrow {
+    font-size: 18px;
+    color: #666;
+    margin-left: 10px;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.plastic-type-item:hover .plastic-type-arrow {
+    opacity: 1;
+    color: #FFD800;
+    transform: translateX(3px);
+}
+
+/* Заглушка для отсутствующих иконок */
+.plastic-type-icon img[src*="icon"]:not([src*="icons/"]) {
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+/* Полоса прокрутки */
+.plastic-types-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.plastic-types-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.plastic-types-list::-webkit-scrollbar-thumb {
+    background: #FFD800;
+    border-radius: 3px;
+}
+
+.plastic-types-list::-webkit-scrollbar-thumb:hover {
+    background: #ffc800;
+}
+
+/* Для планшета */
+@media (max-width: 1200px) {
+    .manual-list-container {
+        margin-left: 20px;
+    }
+    
+    .manual-list-header {
+        padding: 12px 15px;
+    }
+    
+    .manual-list-title {
+        font-size: 22px;
+    }
+    
+    .back-btn-header {
+        font-size: 22px;
+        width: 35px;
+        height: 35px;
+        margin-right: 12px;
+    }
+    
+    .plastic-type-item {
+        padding: 12px;
+        margin-bottom: 8px;
+    }
+    
+    .plastic-type-icon {
+        width: 50px;
+        height: 50px;
+        margin-right: 12px;
+    }
+    
+    .plastic-type-name {
+        font-size: 18px;
+    }
+    
+    .plastic-type-code {
+        font-size: 14px;
+    }
+    
+    .plastic-type-desc {
+        font-size: 13px;
+    }
+}
+
+@media (max-height: 700px) {
+    .plastic-type-item {
+        padding: 10px;
+        margin-bottom: 6px;
+    }
+    
+    .plastic-type-icon {
+        width: 45px;
+        height: 45px;
+        margin-right: 10px;
+    }
+    
+    .plastic-type-name {
+        font-size: 16px;
+    }
+    
+    .manual-list-title {
+        font-size: 20px;
+    }
+}
+
+/* Обновляем прогресс-контейнер */
+.progress-container {
+    display: flex;
+    margin: 35px 0 40px 0;
+    width: 100%;
+    gap: 8px;
+}
+
+.progress-segment {
+    flex: 1;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+/* Цвета контейнеров */
+.progress-segment.recycle-bin {
+    background-color: #4CAF50; /* Зеленый - перерабатываемый */
+}
+
+.progress-segment.waste-bin {
+    background-color: #FF5722; /* Оранжевый - не перерабатываемый */
+}
+
+.progress-segment.paper-bin {
+    background-color: #FFC107; /* Желтый - бумага */
+}
+
+/* Активный контейнер */
+.progress-segment.active {
+    border-color: #333;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}
+
+/* Метка контейнера */
+.bin-label {
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Иконка внутри контейнера */
+.bin-icon {
+    position: absolute;
+    top: -25px;
+    font-size: 24px;
+    color: #333;
+    opacity: 0.8;
+}
+
+/* Для планшета */
+@media (max-width: 1200px) {
+    .progress-segment {
+        height: 35px;
+    }
+    
+    .bin-label {
+        font-size: 16px;
+    }
+}
+
+@media (max-height: 700px) {
+    .progress-segment {
+        height: 30px;
+    }
+    
+    .bin-label {
+        font-size: 14px;
+    }
+}
+
+/* Стили для большого индикатора контейнера */
+.bin-indicator {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 22px;
+    z-index: 1000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    text-align: center;
+    min-width: 300px;
+    border: 3px solid white;
+    animation: pulse 1.5s infinite;
+}
+
+.bin-indicator-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.bin-indicator-icon {
+    font-size: 32px;
+}
+
+.bin-indicator-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.bin-indicator-title {
+    font-size: 18px;
+    font-weight: 500;
+    opacity: 0.9;
+    margin-bottom: 5px;
+}
+
+.bin-indicator-action {
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+.bin-indicator-bin {
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 3px;
+}
+
+/* Анимация пульсации */
+@keyframes pulse {
+    0% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.05); }
+    100% { transform: translateX(-50%) scale(1); }
+}
+
+/* Выделение выбранного элемента в списке */
+.plastic-type-item.selected {
+    background-color: #FFD800;
+    border-color: #333;
+    transform: scale(1.02);
+}
+
+.plastic-type-item.selected .plastic-type-arrow {
+    opacity: 1;
+    color: #333;
+    transform: translateX(5px);
+}
+
+/* Улучшаем видимость контейнеров */
+.progress-segment.active {
+    border-color: #333;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
+    transform: scale(1.08);
+    animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1.08); }
+}
+
+/* Для планшета */
+@media (max-width: 1200px) {
+    .bin-indicator {
+        font-size: 18px;
+        padding: 12px 20px;
+        min-width: 250px;
+    }
+    
+    .bin-indicator-icon {
+        font-size: 28px;
+    }
+    
+    .bin-indicator-title {
+        font-size: 16px;
+    }
+    
+    .bin-indicator-action {
+        font-size: 14px;
+    }
+    
+    .bin-indicator-bin {
+        font-size: 20px;
+    }
+}
+
+@media (max-height: 700px) {
+    .bin-indicator {
+        top: 10px;
+        padding: 10px 15px;
+        min-width: 200px;
+    }
+}
+
+/* Стили для большого индикатора контейнера ВНУТРИ камеры */
+.bin-indicator {
+    position: absolute;
+    bottom: 10px; /* 10px от низа камеры */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(76, 175, 80, 0.95); /* Полупрозрачный зеленый */
+    color: white;
+    padding: 12px 20px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 18px;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    text-align: center;
+    min-width: 280px;
+    border: 3px solid white;
+    animation: pulse 1.5s infinite;
+    backdrop-filter: blur(5px); /* Эффект размытия фона */
+}
+
+.bin-indicator-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.bin-indicator-icon {
+    font-size: 28px;
+}
+
+.bin-indicator-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.bin-indicator-title {
+    font-size: 16px;
+    font-weight: 500;
+    opacity: 0.9;
+    margin-bottom: 3px;
+}
+
+.bin-indicator-bin {
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 2px;
+}
+
+/* Анимация пульсации */
+@keyframes pulse {
+    0% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.05); }
+    100% { transform: translateX(-50%) scale(1); }
+}
+
+/* Цвета для разных типов контейнеров */
+.camera-container .bin-indicator[style*="background-color: rgb(255, 87, 34)"] {
+    background-color: rgba(255, 87, 34, 0.95) !important; /* Оранжевый для отходов */
+}
+
+.camera-container .bin-indicator[style*="background-color: rgb(255, 193, 7)"] {
+    background-color: rgba(255, 193, 7, 0.95) !important; /* Желтый для бумаги */
+}
+
+/* Позиционирование камерного контейнера */
+.camera-container {
+    flex: 1;
+    height: 100%;
+    margin-right: 30px;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Важно для позиционирования индикатора */
+    overflow: hidden; /* Чтобы индикатор не вылезал за границы */
+}
+
+/* Для планшета */
+@media (max-width: 1200px) {
+    .bin-indicator {
+        font-size: 16px;
+        padding: 10px 16px;
+        min-width: 240px;
+        bottom: 8px;
+    }
+    
+    .bin-indicator-icon {
+        font-size: 24px;
+    }
+    
+    .bin-indicator-title {
+        font-size: 14px;
+    }
+    
+    .bin-indicator-bin {
+        font-size: 18px;
+    }
+}
+
+@media (max-height: 700px) {
+    .bin-indicator {
+        bottom: 6px;
+        padding: 8px 14px;
+        min-width: 220px;
+        font-size: 15px;
+    }
+    
+    .bin-indicator-bin {
+        font-size: 16px;
+    }
+}
+
+/* Стили для большого индикатора контейнера ВНУТРИ камеры (горизонтальная полоска) */
+.bin-indicator {
+    position: absolute;
+    bottom: 10px; /* 10px от низа камеры */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.85); /* Темный полупрозрачный фон */
+    color: white;
+    padding: 8px 20px;
+    border-radius: 25px; /* Скругленные углы для полоски */
+    font-weight: bold;
+    font-size: 18px;
+    z-index: 100;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    text-align: center;
+    min-width: 300px;
+    max-width: 80%; /* Максимальная ширина 80% от камеры */
+    border: 2px solid white;
+    animation: pulse 1.5s infinite;
+    backdrop-filter: blur(8px); /* Эффект размытия фона */
+    height: 45px; /* Фиксированная высота примерно 20% от 225px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bin-indicator-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.bin-indicator-icon {
+    font-size: 22px;
+}
+
+.bin-indicator-text {
+    font-size: 16px;
+    font-weight: 700;
+    white-space: nowrap; /* Текст в одну строку */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Цвет текста в зависимости от типа контейнера */
+.bin-indicator[data-bin-type="recycle"] {
+    background-color: rgba(76, 175, 80, 0.9) !important; /* Зеленый */
+}
+
+.bin-indicator[data-bin-type="waste"] {
+    background-color: rgba(255, 87, 34, 0.9) !important; /* Оранжевый */
+}
+
+.bin-indicator[data-bin-type="paper"] {
+    background-color: rgba(255, 193, 7, 0.9) !important; /* Желтый */
+}
+
+/* Анимация пульсации */
+@keyframes pulse {
+    0% { 
+        transform: translateX(-50%) scale(1);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+    50% { 
+        transform: translateX(-50%) scale(1.03);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    }
+    100% { 
+        transform: translateX(-50%) scale(1);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+}
+
+/* Для планшета */
+@media (max-width: 1200px) {
+    .bin-indicator {
+        font-size: 16px;
+        padding: 6px 16px;
+        min-width: 250px;
+        max-width: 85%;
+        height: 40px;
+        bottom: 8px;
+    }
+    
+    .bin-indicator-icon {
+        font-size: 20px;
+    }
+    
+    .bin-indicator-text {
+        font-size: 14px;
+    }
+}
+
+@media (max-height: 700px) {
+    .bin-indicator {
+        height: 35px;
+        padding: 5px 14px;
+        min-width: 220px;
+        font-size: 15px;
+        bottom: 6px;
+    }
+    
+    .bin-indicator-text {
+        font-size: 13px;
+    }
+}
+
+/* КОНТЕЙНЕР КАМЕРЫ - ОЧЕНЬ ВАЖНО! */
+.camera-container {
+    flex: 1;
+    height: 100%;
+    margin-right: 30px;
+    display: flex;
+    flex-direction: column;
+    position: relative !important; /* ДОЛЖНО БЫТЬ relative! */
+    overflow: visible !important; /* Должно быть visible! */
+}
+
+.camera-feed {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden; /* Только у camera-feed может быть hidden */
+}
+
+/* Стили для большого индикатора контейнера ВНУТРИ камеры (горизонтальная полоска) */
+.bin-indicator {
+    position: absolute !important;
+    bottom: 10px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background-color: rgba(76, 175, 80, 0.9); /* Зеленый по умолчанию */
+    color: white !important;
+    padding: 8px 20px !important;
+    border-radius: 25px !important;
+    font-weight: bold !important;
+    font-size: 18px !important;
+    z-index: 1000 !important; /* Очень высокий z-index */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4) !important;
+    text-align: center !important;
+    min-width: 300px !important;
+    max-width: 80% !important;
+    border: 2px solid white !important;
+    animation: pulse 1.5s infinite !important;
+    backdrop-filter: blur(8px) !important;
+    height: 45px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.bin-indicator-content {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 12px !important;
+}
+
+.bin-indicator-icon {
+    font-size: 22px !important;
+}
+
+.bin-indicator-text {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+/* Цвета для разных типов контейнеров через атрибуты */
+.bin-indicator[data-bin-type="recycle"] {
+    background-color: rgba(76, 175, 80, 0.9) !important;
+}
+
+.bin-indicator[data-bin-type="waste"] {
+    background-color: rgba(255, 87, 34, 0.9) !important;
+}
+
+.bin-indicator[data-bin-type="paper"] {
+    background-color: rgba(255, 193, 7, 0.9) !important;
+}
+
+/* Анимация пульсации */
+@keyframes pulse {
+    0% { 
+        transform: translateX(-50%) scale(1) !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4) !important;
+    }
+    50% { 
+        transform: translateX(-50%) scale(1.03) !important;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.5) !important;
+    }
+    100% { 
+        transform: translateX(-50%) scale(1) !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4) !important;
+    }
+}
