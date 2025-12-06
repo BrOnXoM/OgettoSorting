@@ -1213,3 +1213,131 @@ main {
         box-shadow: 0 4px 15px rgba(0,0,0,0.4) !important;
     }
 }
+
+
+
+/* Добавьте в конец styles.css */
+
+/* Анимация сканирования */
+@keyframes pulse-scan {
+    0% { 
+        opacity: 0.3;
+        border-color: #4CAF50;
+    }
+    50% { 
+        opacity: 1;
+        border-color: #8BC34A;
+        border-width: 4px;
+    }
+    100% { 
+        opacity: 0.3;
+        border-color: #4CAF50;
+    }
+}
+
+.scan-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85%;
+    height: 85%;
+    border: 3px dashed #4CAF50;
+    border-radius: 15px;
+    animation: pulse-scan 2s infinite;
+    pointer-events: none;
+    z-index: 10;
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+}
+
+.attempt-counter {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    padding: 12px 18px;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 20px;
+    z-index: 11;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    min-width: 90px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.attempt-counter.warning {
+    background: linear-gradient(135deg, #FF9800, #F57C00);
+}
+
+.attempt-counter.danger {
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+}
+
+/* Индикатор процесса сканирования */
+.scan-progress {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 8px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 11;
+}
+
+.scan-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #4CAF50, #8BC34A);
+    width: 0%;
+    transition: width 0.5s ease;
+    border-radius: 4px;
+}
+
+/* Мигание при успешном распознавании */
+@keyframes success-flash {
+    0%, 100% { 
+        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); 
+    }
+    50% { 
+        box-shadow: 0 0 40px 20px rgba(76, 175, 80, 0.6); 
+    }
+}
+
+.success-flash {
+    animation: success-flash 0.8s ease;
+}
+
+/* Для планшета */
+@media (max-width: 1200px) {
+    .attempt-counter {
+        font-size: 18px;
+        padding: 10px 15px;
+        min-width: 80px;
+        top: 20px;
+        right: 20px;
+    }
+    
+    .scan-indicator {
+        width: 90%;
+        height: 90%;
+    }
+}
+
+@media (max-height: 700px) {
+    .attempt-counter {
+        font-size: 16px;
+        padding: 8px 12px;
+        min-width: 70px;
+        top: 15px;
+        right: 15px;
+    }
+    
+    .scan-progress {
+        bottom: 20px;
+        height: 6px;
+    }
+}
