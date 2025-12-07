@@ -1,268 +1,279 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Эко-Помощник</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Эко-Помощник</title>
+ <link rel="stylesheet" href="styles.css">
+ <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <main>
-        <!-- ============================================= -->
-        <!-- СОСТОЯНИЕ 1: Стартовый экран -->
-        <!-- ============================================= -->
-        <div id="state1" class="main-content active">
-            <div class="camera-container">
-                <div class="camera-feed inactive">
-                    <div class="scan-text-container">
-                        <div class="scan-text-large">Нажмите</div>
-                        <div class="scan-text-small">для сканирования</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="stats-container">
-                <h2 class="stats-title">Статистика пункта:</h2>
-                
-                <div class="stat-item">
-                    <span class="stat-label">Всего выброшено:</span>
-                    <div class="stat-value">343 объекта</div>
-                </div>
-                
-                <div class="stat-item">
-                    <span class="stat-label">Из них отсортированно:</span>
-                    <div class="stat-value">299 объекта</div>
-                </div>
-                
-                <div class="stat-item">
-                    <span class="stat-label">Крутая информация:</span>
-                    <div class="stat-value">********</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- ============================================= -->
-        <!-- СОСТОЯНИЕ 2: Загрузка -->
-        <!-- ============================================= -->
-        <div id="state2" class="main-content">
-            <div class="camera-container">
-                <div class="camera-feed active">
-                    <video id="camera-stream" autoplay playsinline muted></video>
-                </div>
-            </div>
-            
-            <div class="stats-container">
-                <div class="loading-icon">
-                    <i class="fas fa-spinner fa-spin"></i>
-                </div>
-                
-                <div class="loading-text">Идёт Идентификация объекта</div>
-                
-                <button class="yellow-btn manual-btn">Найти вручную</button>
-                <button class="error-btn test-error-btn">Тест: Ошибка идентификации</button>
-            </div>
-        </div>
-        
-        <!-- ============================================= -->
-        <!-- СОСТОЯНИЕ 3: Результат -->
-        <!-- ============================================= -->
-        <div id="state3" class="main-content">
-            <div class="camera-container">
-                <div class="camera-feed active">
-                    <video id="camera-stream-2" autoplay playsinline muted></video>
-                </div>
-            </div>
-            
-            <div class="stats-container">
-                <div class="info-item">
-                    <div class="yellow-label">Объект:</div>
-                    <div class="info-text">Пластиковая бутылка</div>
-                </div>
-                
-                <div class="info-item">
-                    <div class="yellow-label">Инструкция:</div>
-                    <div class="instructions">
-                        <div class="instruction">- Промойте водой</div>
-                        <div class="instruction">- Снимите этикетку</div>
-                        <div class="instruction">- Выбросите в ящик №2</div>
-                    </div>
-                </div>
-                
-                <!-- 3 КОНТЕЙНЕРА: перерабатываемый, не перерабатываемый, бумага -->
-                <div class="progress-container">
-                    <div class="progress-segment recycle-bin" id="bin-recycle">
-                        <div class="bin-label">Перераб.</div>
-                    </div>
-                    <div class="progress-segment waste-bin" id="bin-waste">
-                        <div class="bin-label">Не перераб.</div>
-                    </div>
-                    <div class="progress-segment paper-bin" id="bin-paper">
-                        <div class="bin-label">Бумага</div>
-                    </div>
-                </div>
-                
-                <button class="yellow-btn manual-btn">Найти вручную</button>
-            </div>
-        </div>
-        
-        <!-- ============================================= -->
-        <!-- СОСТОЯНИЕ 4: Ошибка идентификации -->
-        <!-- ============================================= -->
-        <div id="state4" class="main-content">
-            <div class="camera-container">
-                <div class="camera-feed active">
-                    <video id="camera-stream-3" autoplay playsinline muted></video>
-                </div>
-            </div>
-            
-            <div class="stats-container">
-                <div class="error-icon">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </div>
-                
-                <div class="error-text">Ошибка идентификации объекта</div>
-                
-                <div class="error-description">
-                    Не удалось определить тип отхода.<br>
-                    Попробуйте подругому разместить<br>
-                    объект в кадре или выберите вручную.
-                </div>
-                
-                <button class="yellow-btn manual-btn" id="goto-manual">Найти вручную</button>
-            </div>
-        </div>
-        
-        <!-- ============================================= -->
-        <!-- СОСТОЯНИЕ 5: Ручной выбор категории -->
-        <!-- ============================================= -->
-        <div id="state5" class="main-content">
-            <div class="camera-container">
-                <div class="camera-feed active">
-                    <video id="camera-stream-4" autoplay playsinline muted></video>
-                </div>
-            </div>
-            
-            <div class="manual-list-container">
-                <div class="manual-list-header">
-                    <button class="back-btn-header" onclick="goBackFromManual()">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <h2 class="manual-list-title">Выберите тип пластика</h2>
-                </div>
-                
-                <div class="plastic-types-list">
-                    <!-- 1. ПЭТ -->
-                    <div class="plastic-type-item" data-type="pet">
-                        <div class="plastic-type-icon">
-                            <img src="icons/pet-icon.png" alt="PET" class="plastic-icon">
-                        </div>
-                        <div class="plastic-type-info">
-                            <div class="plastic-type-name">ПЭТ (PET)</div>
-                            <div class="plastic-type-code">Маркировка: 1</div>
-                            <div class="plastic-type-desc">Бутылки для напитков, пищевые контейнеры</div>
-                        </div>
-                        <div class="plastic-type-arrow">
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </div>
-                    
-                    <!-- 2. HDPE -->
-                    <div class="plastic-type-item" data-type="hdpe">
-                        <div class="plastic-type-icon">
-                            <img src="icons/hdpe-icon.png" alt="HDPE" class="plastic-icon">
-                        </div>
-                        <div class="plastic-type-info">
-                            <div class="plastic-type-name">ПНД (HDPE)</div>
-                            <div class="plastic-type-code">Маркировка: 2</div>
-                            <div class="plastic-type-desc">Плотные пакеты, канистры, крышки</div>
-                        </div>
-                        <div class="plastic-type-arrow">
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </div>
-                    
-                    <!-- 3. PVC -->
-                    <div class="plastic-type-item" data-type="pvc">
-                        <div class="plastic-type-icon">
-                            <img src="icons/pvc-icon.png" alt="PVC" class="plastic-icon">
-                        </div>
-                        <div class="plastic-type-info">
-                            <div class="plastic-type-name">ПВХ (PVC)</div>
-                            <div class="plastic-type-code">Маркировка: 3</div>
-                            <div class="plastic-type-desc">Трубы, оконные рамы, блистеры</div>
-                        </div>
-                        <div class="plastic-type-arrow">
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </div>
-                    
-                    <!-- 4. LDPE -->
-                    <div class="plastic-type-item" data-type="ldpe">
-                        <div class="plastic-type-icon">
-                            <img src="icons/ldpe-icon.png" alt="LDPE" class="plastic-icon">
-                        </div>
-                        <div class="plastic-type-info">
-                            <div class="plastic-type-name">ПВД (LDPE)</div>
-                            <div class="plastic-type-code">Маркировка: 4</div>
-                            <div class="plastic-type-desc">Мягкие пакеты, плёнка, пупырка</div>
-                        </div>
-                        <div class="plastic-type-arrow">
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </div>
-                    
-                    <!-- 5. PP -->
-                    <div class="plastic-type-item" data-type="pp">
-                        <div class="plastic-type-icon">
-                            <img src="icons/pp-icon.png" alt="PP" class="plastic-icon">
-                        </div>
-                        <div class="plastic-type-info">
-                            <div class="plastic-type-name">ПП (PP)</div>
-                            <div class="plastic-type-code">Маркировка: 5</div>
-                            <div class="plastic-type-desc">Стаканы, крышки, вёдра, упаковка</div>
-                        </div>
-                        <div class="plastic-type-arrow">
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </div>
-                    
-                    <!-- 6. PS -->
-                    <div class="plastic-type-item" data-type="ps">
-                        <div class="plastic-type-icon">
-                            <img src="icons/ps-icon.png" alt="PS" class="plastic-icon">
-                        </div>
-                        <div class="plastic-type-info">
-                            <div class="plastic-type-name">ПС (PS)</div>
-                            <div class="plastic-type-code">Маркировка: 6</div>
-                            <div class="plastic-type-desc">Пенопласт, стаканчики, контейнеры</div>
-                        </div>
-                        <div class="plastic-type-arrow">
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </div>
+ <main>
+  
+  <div id="state1" class="main-content active">
+   <div class="camera-container">
+    <div class="camera-feed inactive">
+     <div class="scan-text-container">
+      <div class="scan-text-large">Нажмите</div>
+      <div class="scan-text-small">для сканирования</div>
+     </div>
+    </div>
+   </div>
+   
+   <div class="gamification-container">
+    <div class="progress-header">
+     <div class="progress-info">
+      <div class="progress-title">Эко-Полянка</div>
+     </div>
+     <div class="current-level">
+      <span class="level-label">Уровень:</span>
+      <span class="level-value">1</span>
+     </div>
+    </div>
+    
+    <div class="current-meadow">
+     <div class="meadow-image-container">
+      <div class="meadow-image" id="current-meadow-image"></div>
+     </div>
+     <div class="meadow-stage-info">
+      <span class="stage-number">Уровень 1</span>
+     </div>
+    </div>
+    
+    <div class="meadow-progress">
+     <div class="progress-track">
+      <div class="progress-fill" style="width: 0%"></div>
+     </div>
+     <div class="progress-numbers">
+      <span class="current-progress">0</span>
+      <span class="progress-separator">/</span>
+      <span class="total-progress">100</span>
+     </div>
+    </div>
+    
+    <div class="bins-stats">
+     <div class="bins-title">Ваша сортировка:</div>
+     
+     <div class="bin-stat-row">
+      <div class="bin-stat bin-recycle">
+       <div class="bin-icon">♻️</div>
+       <div class="bin-info">
+        <div class="bin-name">Перераб. пластик</div>
+        <div class="bin-count">0</div>
+       </div>
+      </div>
+      <div class="bin-stat bin-paper">
+       <div class="bin-icon">📄</div>
+       <div class="bin-info">
+        <div class="bin-name">Бумага</div>
+        <div class="bin-count">0</div>
+       </div>
+      </div>
+      <div class="bin-stat bin-waste">
+       <div class="bin-icon">🚫</div>
+       <div class="bin-info">
+        <div class="bin-name">Не перераб.</div>
+        <div class="bin-count">0</div>
+       </div>
+      </div>
+     </div>
+     
+     <div class="total-stats">
+      <div class="total-stat">
+       <span class="total-label">Всего:</span>
+       <span class="total-value">0</span>
+      </div>
+      <div class="total-stat">
+       <span class="total-label">Отсортированно:</span>
+       <span class="total-value">0</span>
+      </div>
+      <div class="total-stat">
+       <span class="total-label">Эффективность:</span>
+       <span class="total-value">0%</span>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  
+  <div id="state2" class="main-content">
+   <div class="camera-container">
+    <div class="camera-feed active">
+     <video id="camera-stream" autoplay playsinline muted></video>
+     <div class="scan-overlay"></div>
+    </div>
+   </div>
+   
+   <div class="stats-container">
+    <div class="loading-icon">
+     <i class="fas fa-spinner fa-spin"></i>
+    </div>
+    
+    <div class="loading-text">Идёт идентификация объекта</div>
+    <div class="scan-timer" id="scan-timer">15 сек</div>
+    
+    <button class="text-btn manual-btn">Найти вручную</button>
+   </div>
+  </div>
+  
+  
+  <div id="state3" class="main-content">
+   <div class="camera-container">
+    <div class="camera-feed active">
+     <video id="camera-stream-2" autoplay playsinline muted></video>
+    </div>
+   </div>
+   
+   <div class="stats-container">
+    <div class="info-item">
+     <div class="yellow-label">ОБЪЕКТ</div>
+     <div class="info-text" id="result-object">Пластиковая бутылка</div>
+    </div>
+    
+    <div class="info-item">
+     <div class="yellow-label">ИНСТРУКЦИЯ</div>
+     <div class="instructions" id="result-instructions">
+      <div class="instruction">Промойте водой от остатков напитка</div>
+      <div class="instruction">Снимите этикетку и крышку</div>
+      <div class="instruction">Смять для экономии места</div>
+      <div class="instruction">Выбросить в перерабатываемый пластик</div>
+     </div>
+    </div>
+    
+    <div class="progress-container">
+     <div class="bin-container-title">НУЖНЫЙ БАК:</div>
+     <div class="progress-segment recycle-bin" id="bin-recycle">
+      <div class="bin-label">Перерабатываемый пластик</div>
+      <div class="bin-number" data-bin-index="1">1-й</div>
+     </div>
+     <div class="progress-segment waste-bin" id="bin-waste">
+      <div class="bin-label">Неперерабатываемые отходы</div>
+      <div class="bin-number" data-bin-index="2">2-й</div>
+     </div>
+     <div class="progress-segment paper-bin" id="bin-paper">
+      <div class="bin-label">Бумага и картон</div>
+      <div class="bin-number" data-bin-index="3">3-й</div>
+     </div>
+    </div>
+    
+    <div class="action-buttons">
+     <button class="yellow-btn scan-again-btn">СКАНИРОВАТЬ СНОВА</button>
+     <button class="text-btn manual-btn">Найти вручную</button>
+    </div>
+   </div>
+  </div>
+  
+  <div id="state4" class="main-content">
+   <div class="camera-container">
+    <div class="camera-feed active">
+     <video id="camera-stream-3" autoplay playsinline muted></video>
+    </div>
+   </div>
+   
+   <div class="manual-list-container">
+    <div class="manual-list-header">
+     <button class="back-btn-header" onclick="goBackFromManual()">
+      <i class="fas fa-arrow-left"></i>
+     </button>
+     <h2 class="manual-list-title">Выберите тип отхода</h2>
+    </div>
+    
+    <div class="plastic-types-list">
+     <div class="plastic-category">
+      <div class="category-title">Пластик ♻️</div>
+      
+      <div class="plastic-type-item" data-type="pet">
+       <div class="plastic-type-icon">
+        <img src="icons/pet-icon.png" alt="PET" class="plastic-icon">
+       </div>
+       <div class="plastic-type-info">
+        <div class="plastic-type-name">ПЭТ (PET)</div>
+        <div class="plastic-type-desc">Бутылки для напитков</div>
+       </div>
+       <div class="plastic-type-arrow">
+        <i class="fas fa-chevron-right"></i>
+       </div>
+      </div>
+      
+      <div class="plastic-type-item" data-type="hdpe">
+       <div class="plastic-type-icon">
+        <img src="icons/hdpe-icon.png" alt="HDPE" class="plastic-icon">
+       </div>
+       <div class="plastic-type-info">
+        <div class="plastic-type-name">ПНД (HDPE)</div>
+        <div class="plastic-type-desc">Плотные пакеты, канистры</div>
+       </div>
+       <div class="plastic-type-arrow">
+        <i class="fas fa-chevron-right"></i>
+       </div>
+      </div>
+      
+      <div class="plastic-type-item" data-type="pp">
+       <div class="plastic-type-icon">
+        <img src="icons/pp-icon.png" alt="PP" class="plastic-icon">
+       </div>
+       <div class="plastic-type-info">
+        <div class="plastic-type-name">ПП (PP)</div>
+        <div class="plastic-type-desc">Стаканы, крышки, вёдра</div>
+       </div>
+       <div class="plastic-type-arrow">
+        <i class="fas fa-chevron-right"></i>
+       </div>
+      </div>
+     </div>
+     
+     <div class="plastic-category">
+      <div class="category-title">Бумага 📄</div>
+      
+      <div class="plastic-type-item" data-type="paper">
+       <div class="plastic-type-icon">
+        <img src="icons/paper-icon.png" alt="Бумага" class="plastic-icon">
+       </div>
+       <div class="plastic-type-info">
+        <div class="plastic-type-name">Бумага и картон</div>
+        <div class="plastic-type-desc">Газеты, журналы, упаковка</div>
+       </div>
+       <div class="plastic-type-arrow">
+        <i class="fas fa-chevron-right"></i>
+       </div>
+      </div>
+     </div>
+     
+     <div class="plastic-category">
+      <div class="category-title">Не перераб. 🚫</div>
+      
+      <div class="plastic-type-item" data-type="dirty">
+       <div class="plastic-type-icon">
+        <div style="font-size: 24px;">🍕</div>
+       </div>
+       <div class="plastic-type-info">
+        <div class="plastic-type-name">Загрязненный пластик</div>
+        <div class="plastic-type-desc">С наклейками или остатками пищи</div>
+       </div>
+       <div class="plastic-type-arrow">
+        <i class="fas fa-chevron-right"></i>
+       </div>
+      </div>
 
-                    <!-- 7. Бумага и картон -->
-                    <div class="plastic-type-item" data-type="paper">
-                        <div class="plastic-type-icon">
-                            <img src="icons/paper-icon.png" alt="Бумага" class="plastic-icon">
-                        </div>
-                        <div class="plastic-type-info">
-                            <div class="plastic-type-name">Бумага и картон</div>
-                            <div class="plastic-type-code">Бумага</div>
-                            <div class="plastic-type-desc">Газеты, журналы, картон, упаковка</div>
-                        </div>
-                        <div class="plastic-type-arrow">
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- ============================================= -->
-    </main>
+      <div class="plastic-type-item" data-type="other">
+       <div class="plastic-type-icon">
+        <div style="font-size: 24px;">🗑️</div>
+       </div>
+       <div class="plastic-type-info">
+        <div class="plastic-type-name">Смешанные отходы</div>
+        <div class="plastic-type-desc">Композитные материалы, упаковка</div>
+       </div>
+       <div class="plastic-type-arrow">
+        <i class="fas fa-chevron-right"></i>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </main>
 
-    <script src="script.js"></script>
+ <script src="script.js"></script>
 </body>
 </html>
